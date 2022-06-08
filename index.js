@@ -5,7 +5,7 @@ const debounce = require('lodash.debounce');
 const program = require('caporal')
 const curr = process.cwd();
 const fs = require('fs')
-const {exec} = require('child_process');
+const {spawn} = require('child_process');
 
 
 program
@@ -20,8 +20,8 @@ program
         }
         
         const start = debounce(()=>{
-            exec('node', 'curr');
-        },100)
+            spawn('node', [name], {stdio:'inherit'});
+        },500)
         chokidar.watch(curr)
             .on('add', start)
             .on('change',start)
