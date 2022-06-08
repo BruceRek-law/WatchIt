@@ -1,3 +1,32 @@
 #!/usr/bin/env node
 
-console.log("Hey")
+const chokidar = require('chokidar');
+const debounce = require('lodash.debounce');
+const program = require('caporal')
+const curr = process.cwd();
+const fs = require('fs')
+const {exec} = require('child_process');
+
+
+program
+    .version('1.0.0')
+    .argument('[filename]', 'Name of a file to execute')
+    .action( async ({filename}) =>{
+        const name = filename||'index.js';
+        try{
+        await fs.promises.access(name)
+        }catch(err){
+            throw new Error('Could not find the file')
+        }
+        
+        const start = debounce(()=>{
+            exec('node', 'curr');
+        },100)
+        chokidar.watch(curr)
+            .on('add', start)
+            .on('change',start)
+            .on('unlink',start)
+    });
+
+program.parse(process.argv)
+
