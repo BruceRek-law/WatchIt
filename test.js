@@ -1,3 +1,4 @@
-console.log("Hi there!")
-console.log("it wrks not")
-
+setInterval(()=>{
+    console.log("Hi there!")
+console.log("Second Steps!")
+},1000)
